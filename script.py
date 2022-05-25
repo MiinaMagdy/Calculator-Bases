@@ -1,7 +1,7 @@
-from glob import glob
 from tkinter import *
 
 root = Tk()
+root.geometry("590x400")
 
 def digit_b(mod):
     if mod < 10:
@@ -60,6 +60,7 @@ def multiStrings(s, t, base):
             m = (digit_dec(t[i])) * (digit_dec(s[j])) + (digit_dec(carry))
             carry = digit_b(m // base)
             tmp += digit_b(m % base)
+            j += 1
         tmp += carry
         tmp = tmp[::-1]
         res = addStrings(res, tmp, base)
@@ -98,20 +99,49 @@ def minusStrings(s, t, base):
         s_add_t_comp = s_add_t_comp[1 : len(s_add_t_comp)]
     return "-" + complement(s_add_t_comp, base) if less else s_add_t_comp
 
-baseLabel = Label(root, text='Base= ')
-baseLabel.grid(row=0, column=3)
+def enabling0(event):
+    myEntry0.config(state=NORMAL)
+    if myEntry0.get() == 'Base':
+        myEntry0.delete(0, END)
+
+def enabling1(event):
+    myEntry1.config(state=NORMAL)
+    if myEntry1.get() == 'Number 1':
+        myEntry1.delete(0, END)
+
+def enabling2(event):
+    myEntry2.config(state=NORMAL)
+    if myEntry2.get() == 'Number 2':
+        myEntry2.delete(0, END)
+
+def enablingo(event):
+    myOperator.config(state=NORMAL)
+    if myOperator.get() == 'operator':
+        myOperator.delete(0, END)
 
 myEntry0 = Entry(root, width=20)
+myEntry0.insert(0, 'Base')
+myEntry0.config(state=DISABLED)
+myEntry0.bind('<Button-1>', enabling0)
 myEntry0.grid(row=0, column=4)
 
 myEntry1 = Entry(root, width=20)
+myEntry1.insert(0, 'Number 1')
+myEntry1.config(state=DISABLED)
+myEntry1.bind('<Button-1>', enabling1)
 myEntry1.grid(row=0, column=0)
 
-myOperator = Entry(root, width=5)
-myOperator.grid(row=0, column=1)
-
 myEntry2 = Entry(root, width=20)
+myEntry2.insert(0, 'Number 2')
+myEntry2.config(state=DISABLED)
+myEntry2.bind('<Button-1>', enabling2)
 myEntry2.grid(row=0, column=2)
+
+myOperator = Entry(root, width=10)
+myOperator.insert(0, 'operator')
+myOperator.config(state=DISABLED)
+myOperator.bind('<Button-1>', enablingo)
+myOperator.grid(row=0, column=1)
 
 def myDelete():
     myLabel.grid_forget()
@@ -138,8 +168,6 @@ def myClick():
     except:
         myLabel = Label(root, text=res)
         myLabel.grid(row=2, column=1)
-
-
 
 myButton = Button(root, text='Click Me!', command=myClick)
 
